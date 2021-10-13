@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Cadastro de Jogador</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-sm">
+    <form class="login-one-form" th:action="@{/update}" method="POST" th:object="${jogador}">
+        <div class="text-center">
+            <h3>ATUALIZAR</h3>
+        </div>
+        <span class="alert-danger" th:if="${error}" th:text="${'A equipe já está completa, não possui mais usuários disponíveis'}"></span>
+        <div class="mb-3">
+            <label for="exampleInputName1" class="form-label">Nome</label>
+            <input type="name" class="form-control" name="nome" id="exampleInputName1" th:field="*{nome}"/>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" th:field="*{email}" required/>
+            <div id="emailHelp" class="form-text">Digite um e-email valido</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputTelefone1" class="form-label">Telefone</label>
+            <input type="telefone" name="telefone" class="form-control" id="exampleTelefone1" th:field="*{telefone}" required/>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:formaction="@{/update/{id}(id=${jogador.id})}">Update</button>
+        <a href="/listar" class="btn btn-primary">Listar jogadores</a>
+    </form>
+</div>
+</body>
+</html>

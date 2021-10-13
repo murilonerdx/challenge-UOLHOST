@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Listar Jogadores</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-sm">
+    <div class="col-md-6 text-center">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Codinome</th>
+                <th scope="col">Grupo</th>
+                <th scope="col">#></th>
+                <th scope="col"><#></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="jogador : ${jogadores}">
+                <th scope="row" th:text="${jogador.id}">1</th>
+                <td th:text="${jogador.nome}">Mark</td>
+                <td th:text="${jogador.email}">Otto</td>
+                <td th:text="${jogador.telefone}">@mdo</td>
+                <td th:text="${jogador.hero.codinome}">@mdo</td>
+                <td th:text="${jogador.hero.nameGroup}">@mdo</td>
+                <td><a class="btn btn-primary" th:href="@{/editar/{id}(id=${jogador.id})}">Editar</a></td>
+                <td><a class="btn btn-primary" th:href="@{/deletar/{id}(id=${jogador.id})}">Excluir</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <a href="/" class="btn btn-primary">Novo jogador</a>
+    </div>
+</div>
+
+</body>
+</html>
