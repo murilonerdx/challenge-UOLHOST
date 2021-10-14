@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+@SuppressWarnings("SameReturnValue")
 @Profile("test")
 @Configuration
 @RequiredArgsConstructor
@@ -16,8 +17,14 @@ public class DbInitializer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DbInitializer.class);
 
-  @Autowired private ParamRequestService service;
+  private ParamRequestService service;
 
+  @Autowired
+  public DbInitializer(ParamRequestService service) {
+    this.service = service;
+  }
+
+  @SuppressWarnings("SameReturnValue")
   @Bean
   public boolean instantiateDatabase() {
     try{

@@ -1,9 +1,6 @@
 package com.murilonerdx.uolhost.model;
 
-import lombok.*;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name="tb_hero")
@@ -22,6 +19,22 @@ public class Hero {
     public Hero(){}
 
 
+    public boolean isObtain() {
+        return !obtain;
+    }
+
+    public void setObtain(boolean obtain) {
+        this.obtain = obtain;
+    }
+
+    public String getNameGroup() {
+        return nameGroup;
+    }
+
+    public void setNameGroup(String nameGroup) {
+        this.nameGroup = nameGroup;
+    }
+
     public Long getId() {
         return id;
     }
@@ -36,21 +49,5 @@ public class Hero {
 
     public void setCodinome(String codinome) {
         this.codinome = codinome;
-    }
-
-    public boolean isObtain() {
-        return obtain;
-    }
-
-    public void setObtain(boolean obtain) {
-        this.obtain = obtain;
-    }
-
-    public String getNameGroup() {
-        return nameGroup;
-    }
-
-    public void setNameGroup(String nameGroup) {
-        this.nameGroup = nameGroup;
     }
 }

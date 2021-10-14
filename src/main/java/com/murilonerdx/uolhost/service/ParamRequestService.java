@@ -25,12 +25,16 @@ public class ParamRequestService {
   final String URL_PATH_LIGA_DA_JUSTICA =
       "https://raw.githubusercontent.com/uolhost/test-backEnd-Java/master/referencias/liga_da_justica.xml";
 
-  @Autowired private HeroRepository heroRepository;
+  private final HeroRepository heroRepository;
 
-  RestTemplateBuilder builder = new RestTemplateBuilder();
-  RestTemplate template = builder.build();
+  final RestTemplateBuilder builder = new RestTemplateBuilder();
+  final RestTemplate template = builder.build();
 
-  public List<Hero> getVingadoresConsumerJson() {
+  public ParamRequestService(HeroRepository heroRepository) {
+    this.heroRepository = heroRepository;
+  }
+
+  public void getVingadoresConsumerJson() {
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
     converter.setSupportedMediaTypes(
         Arrays.asList(MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON));
@@ -43,10 +47,10 @@ public class ParamRequestService {
             .peek(x -> x.setNameGroup("Vingadores"))
             .collect(Collectors.toList());
 
-    return heroRepository.saveAll(heros);
+    heroRepository.saveAll(heros);
   }
 
-  public List<Hero> getLigaDaJusticaConsumerXml() throws IOException {
+  public void getLigaDaJusticaConsumerXml() throws IOException {
     HeroDTO heroDTO = new HeroDTO();
     int lenght = searchHtmlElement(URL_PATH_LIGA_DA_JUSTICA, "codinome").size();
     for (int a = 0; a < lenght; a++) {
@@ -54,10 +58,10 @@ public class ParamRequestService {
           .getLiga_da_justica()
           .add(new Hero(uniqueHtmlElement(URL_PATH_LIGA_DA_JUSTICA, "codinome", a)));
     }
-    return heroRepository.saveAll(
-        heroDTO.getLiga_da_justica().stream()
-            .peek(x -> x.setNameGroup("Liga da Justiça"))
-            .collect(Collectors.toList()));
+    heroRepository.saveAll(
+            heroDTO.getLiga_da_justica().stream()
+                    .peek(x -> x.setNameGroup("Liga da Justiça"))
+                    .collect(Collectors.toList()));
   }
 
   public Elements searchHtmlElement(String path, String param) throws IOException {
@@ -72,7 +76,7 @@ public class ParamRequestService {
     Random random = new Random();
     List<Hero> herosObtain =
         heroRepository.findAll().stream()
-            .filter(x -> !x.isObtain() && x.getNameGroup().equals("Vingadores"))
+            .filter(x -> x.isObtain() && x.getNameGroup().equals("Vingadores"))
             .collect(Collectors.toList());
     if (herosObtain.isEmpty()) return null;
     int length = herosObtain.size();
@@ -85,7 +89,7 @@ public class ParamRequestService {
     Random random = new Random();
     List<Hero> herosObtain =
         heroRepository.findAll().stream()
-            .filter(x -> !x.isObtain() && x.getNameGroup().equals("Liga da Justiça"))
+            .filter(x -> x.isObtain() && x.getNameGroup().equals("Liga da Justiça"))
             .collect(Collectors.toList());
     if (herosObtain.isEmpty()) return null;
     int length = herosObtain.size();

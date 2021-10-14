@@ -13,9 +13,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
 
-  @Autowired private JogadorRepository repository;
+  private final JogadorRepository repository;
 
-  @Autowired private ParamRequestService service;
+  private final ParamRequestService service;
+
+  @Autowired
+  public IndexController(JogadorRepository repository, ParamRequestService service) {
+    this.repository = repository;
+    this.service = service;
+  }
 
   @GetMapping("/")
   public String index(Jogador jogador) {
@@ -59,21 +65,21 @@ public class IndexController {
 
   @GetMapping(value="/deletar/{id}")
   public String delete(@PathVariable("id") Long id){
-    repository.deleteById(Long.valueOf(id));
+    repository.deleteById(id);
     return "redirect:/listar";
   }
 
   @GetMapping(value="/editar/{id}")
   public ModelAndView edits(@PathVariable("id") Long id, Model model){
-    Jogador jogador = repository.findById(id).get();
+    @SuppressWarnings("OptionalGetWithoutIsPresent") Jogador jogador = repository.findById(id).get();
     return new ModelAndView("update").addObject("jogador",jogador);
   }
 
-  @PostMapping("update/{id}")
+  @PostMapping("/update/{id}")
   public String update(@PathVariable("id") Long id, @ModelAttribute("jogador") Jogador jogador,
                               Model model) {
 
-    Jogador jogadorNew = repository.findById(id).get();
+    @SuppressWarnings("OptionalGetWithoutIsPresent") Jogador jogadorNew = repository.findById(id).get();
     jogadorNew.setEmail(jogador.getEmail());
     jogadorNew.setTelefone(jogador.getTelefone());
     jogadorNew.setNome(jogador.getNome());
