@@ -73,7 +73,6 @@ public class ParamRequestService {
   }
 
   public Hero sortedVingadores() {
-    Random random = new Random();
     List<Hero> herosObtain =
         heroRepository.findAll().stream()
             .filter(x -> x.isObtain() && x.getNameGroup().equals("Vingadores"))
@@ -81,12 +80,11 @@ public class ParamRequestService {
     if (herosObtain.isEmpty()) return null;
     int length = herosObtain.size();
 
-    int getRandom = random.nextInt(length);
+    int getRandom = getRandom().nextInt(length);
     return setNotObtain(herosObtain.get(getRandom));
   }
 
   public Hero sortedLigaDaJustica() {
-    Random random = new Random();
     List<Hero> herosObtain =
         heroRepository.findAll().stream()
             .filter(x -> x.isObtain() && x.getNameGroup().equals("Liga da Justiça"))
@@ -94,12 +92,16 @@ public class ParamRequestService {
     if (herosObtain.isEmpty()) return null;
     int length = herosObtain.size();
 
-    int getRandom = random.nextInt(length);
+    int getRandom = getRandom().nextInt(length);
     return setNotObtain(herosObtain.get(getRandom));
   }
 
   public Hero setNotObtain(Hero hero){
     hero.setObtain(true);
     return heroRepository.save(hero);
+  }
+
+  public Random getRandom(){
+    return new Random();
   }
 }
